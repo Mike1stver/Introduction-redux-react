@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { User } from "./User";
+import { Main } from "./Main";
+import "./App.css";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  changeUsername(newName) {}
+
+  render() {
+    return (
+      <div className="container">
+        <Main changeUsername={() => this.props.setName("Anna")} />
+        <User username={this.props.user.name} />
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    math: state.math
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setName: name => {
+      dispatch({
+        type: "SET_NAME",
+        payload: name
+      });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+// Luego lo que se tiene que hacer es determinar:
+// Cuales partes de mi estado necesita cada componente y cuales son las acciones que yo requiero hacer dispatch
